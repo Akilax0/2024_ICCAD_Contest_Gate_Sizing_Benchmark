@@ -4,7 +4,7 @@ This GitHub repository has the public benchmarks for the 2024 ICCAD CAD Contest 
 
 ## Table of Content
   - [*IR_Tables*](./IR_Tables): Design data in CircuitOps IR tables format.
-  - [*design*](./design): Design netlist, post-routed DEF, SDC, and post-routed SPEF file.
+  - [*design*](./design): Design netlist, post-routed DEF, SDC, post-routed SPEF file, and reference .size output file.
   - [*platform/ASAP7*](./platform/ASAP7): ASAP7 cell library for the designs.
   - [*src*](./src)
     - [*example*](./src/example): Example scripts showing how to use OpenROAD Python API and CircuitOps LPG.
@@ -67,7 +67,14 @@ make -j
 ## Benchmark Statistics
 |        design        |   gate count   |    WNS (ns)   |    TNS (ns)   |worst slew (ns)|max load C (pF)| total leakage (uW)|
 |:--------------------:|---------------:|--------------:|--------------:|--------------:|--------------:|--------------:|
-| NV_NVDLA_partition_m | 24,869| -1.121| -734.262| 2.393| 0.381| 2.404|
+| NV_NVDLA_partition_m | 23,856| -0.631| -178.580| 1.186| 0.063| 1.527|
+
+(Reported by OpenSTA)
+
+## Reference Sizing Result Statistics
+|        design        |   gate count   |    WNS (ns)   |    TNS (ns)   |worst slew (ns)|max load C (pF)| total leakage (uW)|
+|:--------------------:|---------------:|--------------:|--------------:|--------------:|--------------:|--------------:|
+| NV_NVDLA_partition_m | 23,856| -0.202| -9.088| 0.255| 0.015| 2.309|
 
 (Reported by OpenSTA)
 

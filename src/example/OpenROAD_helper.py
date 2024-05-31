@@ -49,30 +49,35 @@ def load_design(design_name, verilog = False):
 
   # Read design files
   if verilog:
-    verilogFile = "%s/%s.v.gz"%(designDir.as_posix(), design_name)
+    verilogFile = "%s/%s.v"%(designDir.as_posix(), design_name)
     design.readVerilog(verilogFile)
     design.link(design_name)
   else:
-    defFile = "%s/%s.def.gz"%(designDir.as_posix(), design_name)
+    defFile = "%s/%s.def"%(designDir.as_posix(), design_name)
     design.readDef(defFile)
 
   # Read the SDC file, SPEF file, and set the clocks
-  spefFile = "%s/%s.spef.gz"%(designDir.as_posix(), design_name)
+  spefFile = "%s/%s.spef"%(designDir.as_posix(), design_name)
   design.evalTclString("read_spef %s"%spefFile)
-  sdcFile = "%s/%s.sdc.gz"%(designDir.as_posix(), design_name)
+  sdcFile = "%s/%s.sdc"%(designDir.as_posix(), design_name)
   design.evalTclString("read_sdc %s"%sdcFile)
   design.evalTclString("source ../../platform/ASAP7/setRC.tcl")
-
+  
   # Global connect
   VDDNet = design.getBlock().findNet("VDD")
+  if VDDNet is None:
+    VDDNet = odb.dbNet_create(design.getBlock(), "VDD")
   VDDNet.setSpecial()
   VDDNet.setSigType("POWER")
   VSSNet = design.getBlock().findNet("VSS")
+  if VSSNet is None:
+    VSSNet = odb.dbNet_create(design.getBlock(), "VSS")
   VSSNet.setSpecial()
   VSSNet.setSigType("GROUND")
   design.getBlock().addGlobalConnect(None, ".*", "VDD", VDDNet, True)
   design.getBlock().addGlobalConnect(None, ".*", "VSS", VSSNet, True)
   design.getBlock().globalConnect()
+
   return tech, design
 
 #################################################
