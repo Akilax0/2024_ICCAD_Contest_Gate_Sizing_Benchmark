@@ -3,8 +3,8 @@ This GitHub repository has the public benchmarks for the 2024 ICCAD CAD Contest 
 
 
 ## Table of Content
-  - [*IR_Tables*](./IR_Tables): Design data in CircuitOps IR tables format.
-  - [*design*](./design): Design netlist, post-routed DEF, SDC, post-routed SPEF file, and reference .size output file.
+  - [*IR_Tables*](./IR_Tables): Design data in CircuitOps IR tables format, units are in farad (F), Ohm (Ω), and second (s).
+  - [*design*](./design): Design netlist, post-placement DEF, SDC, and reference .size output file.
   - [*platform/ASAP7*](./platform/ASAP7): ASAP7 cell library for the designs.
   - [*src*](./src)
     - [*example*](./src/example): Example scripts showing how to use OpenROAD Python API and CircuitOps LPG.
@@ -67,14 +67,20 @@ make -j
 ## Benchmark Statistics
 |        design        |   gate count   |    WNS (ns)   |    TNS (ns)   |worst slew (ns)|max load C (pF)| total leakage (uW)|
 |:--------------------:|---------------:|--------------:|--------------:|--------------:|--------------:|--------------:|
-| NV_NVDLA_partition_m | 23,856| -0.631| -178.580| 1.186| 0.063| 1.527|
+| NV_NVDLA_partition_m | 27,553| -0.595|    -156.323| 1.135| 0.061|      1.672|
+| NV_NVDLA_partition_p | 79,919| -1.619|   -8,423.53| 1.627| 0.087|      5.539|
+| ariane136            |143,671| -1.298| -10,143.711|  1.44| 0.072| 17,539.095|
+| mempool_tile_wrap    |205,454| -1.56 | -12,697.547| 1.472| 0.072|  2,590.158|
 
 (Reported by OpenSTA)
 
 ## Reference Sizing Result Statistics
 |        design        |   gate count   |    WNS (ns)   |    TNS (ns)   |worst slew (ns)|max load C (pF)| total leakage (uW)|
 |:--------------------:|---------------:|--------------:|--------------:|--------------:|--------------:|--------------:|
-| NV_NVDLA_partition_m | 23,856| -0.202| -9.088| 0.255| 0.015| 2.309|
+| NV_NVDLA_partition_m | 27,553| -0.207|  -10.266|    NA|    NA|     2.693|
+| NV_NVDLA_partition_p | 79,919| -0.226| -125.452| 0.357|    NA|     6.635|
+| ariane136            |143,671| -0.214|  -27.613|  0.66|    NA| 17,545.15|
+| mempool_tile_wrap    |205,454| -0.199|   -1.232| 0.857| 0.036|  2,594.44|
 
 (Reported by OpenSTA)
 
@@ -92,11 +98,7 @@ make -j
 
 <instanceName>,<staticPower>
 ```
-("output_pin_cap" is the sum of the sink pins' capacitance. You can get it by subtracting the "total_cap" with "net_cap" from the net properties IR Table.)
-
-## Q&A
-- Q1: Does the cell library provide the area information?
-- A1: Yes, you can find the area information in the lib files.
+("output_pin_cap" is the sum of the sink pins' capacitance and the net capacitance.)
 
 
 
